@@ -54,6 +54,8 @@ var newGame = function() {
   		event.preventDefault();
   		makeGuess();
   	});
+
+  	clearGuesses();
 }
 
 var generateSecret = function() {
@@ -78,4 +80,8 @@ function feedback(feedback) {
 
 function appendGuess(guess) {
 	$("#guessList").append($("<li>" + guess + "</li>"));
+}
+
+function clearGuesses() {
+	$("#guessList").html("");
 }
