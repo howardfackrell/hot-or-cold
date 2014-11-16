@@ -4,7 +4,6 @@ $(document).ready(function(){
 	/*--- Display information modal box ---*/
   	$(".what").click(function(){
     	$(".overlay").fadeIn(400);
-
   	});
 
   	/*--- Hide information modal box ---*/
@@ -17,16 +16,14 @@ $(document).ready(function(){
   		newGame();
   	});
 
-  	$("#guessButton").click(function(event) {
-  		event.preventDefault();
-  		incrementGuesses();
-  	});
+  	newGame();
 
 });
 
+var secret = -1;
 
 var incrementGuesses = function() {
-	var guessesElement = $("#count")
+	var guessesElement = $("#count");
 	var guesses = guessesElement.html();
 	guesses = +guesses;
 	guesses++;
@@ -39,9 +36,35 @@ var resetGuesses = function() {
 
 var makeGuess = function() {
 	incrementGuesses();
+	var guess = $("#userGuess").val();
+	guess = +guess;
+	if (guess === secret) {
+		disableSubmit();
+		alert("done");
+	}
+	
+	clearGuess();
 }
 
 var newGame = function() {
 	resetGuesses();	
+	generateSecret();
+	
+	$("form").on('click', '#guessButton', function(event) {
+  		event.preventDefault();
+  		makeGuess();
+  	});
+}
+
+var generateSecret = function() {
+	secret = 50;
+}
+
+var clearGuess = function() {
+	$("#userGuess").val("");
+}
+
+var disableSubmit = function() {
+	$("form").off('click', '#guessButton');
 }
 
