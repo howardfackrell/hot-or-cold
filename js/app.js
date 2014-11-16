@@ -40,7 +40,11 @@ var makeGuess = function() {
 	guess = +guess;
 	if (guess === secret) {
 		disableSubmit();
-		alert("done");
+		feedback("That's it.  Hit 'New Game to play again.");
+	} else if (guess < secret) {
+		feedback("You're too low.");
+	} else {
+		feedback("You're too high.")
 	}
 	appendGuess(guess);
 	clearGuess();
