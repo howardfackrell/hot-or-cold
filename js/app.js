@@ -42,7 +42,7 @@ var makeGuess = function() {
 		disableSubmit();
 		alert("done");
 	}
-	
+	appendGuess(guess);
 	clearGuess();
 }
 
@@ -57,7 +57,7 @@ var newGame = function() {
 }
 
 var generateSecret = function() {
-	secret = 50;
+	secret = getRandomInt(1,  100);
 }
 
 var clearGuess = function() {
@@ -68,3 +68,14 @@ var disableSubmit = function() {
 	$("form").off('click', '#guessButton');
 }
 
+function getRandomInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+function feedback(feedback) {
+	$("#feedback").html(feedback);
+}
+
+function appendGuess(guess) {
+	$("#guessList").append($("<li>" + guess + "</li>"));
+}
