@@ -21,6 +21,7 @@ $(document).ready(function(){
 });
 
 var secret = -1;
+var lastGuess = -1;
 
 var incrementGuesses = function() {
 	var guessesElement = $("#count");
@@ -38,12 +39,25 @@ var provideFeedback = function(guess) {
 	guess = +guess;
 	if (guess == secret) {
 		disableSubmit();
-		feedback("That's it.  Hit 'New Game to play again.");
+		feedback("That's it.  Hit 'New Game' to play again.");
 	} else if (guess < secret) {
-		feedback("You're too low.");
+		feedback(previous(lastGuess, guess, secret) + "You're too low.");
 	} else {
-		feedback("You're too high.")
+		feedback(previous(lastGuess, guess, secret) + "You're too high.")
 	}
+}
+
+function previous(lastGuess, guess, secret) {
+	var lastOne = Math.abs(secret - lastGuess);
+	var thisOne = Math.abs(secret - guess);
+	var feedback = "Getting colder.  ";
+	if (thisOne < lastOne) {
+		feedback = "Getting warmer.  ";
+	} 
+	if (lastGuess < 0) {
+		feedback = "";
+	}
+	return feedback;
 }
 
 var validInput = function(n) {
@@ -53,11 +67,12 @@ var validInput = function(n) {
 
 var makeGuess = function() {
 	var guess = $("#userGuess").val();
-	if (validInput(guess)) {
+	if (validInput(guess)) {		
 		incrementGuesses();
 		provideFeedback(guess);
 		appendGuess(guess);
 		clearGuess();
+		lastGuess = +guess;
 	} else {
 		feedback("Please enter a number from 1 - 100");
 	}
