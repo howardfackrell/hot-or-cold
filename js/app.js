@@ -34,11 +34,9 @@ var resetGuesses = function() {
 	$("#count").html("0");
 }
 
-var makeGuess = function() {
-	incrementGuesses();
-	var guess = $("#userGuess").val();
+var provideFeedback = function(guess) {	
 	guess = +guess;
-	if (guess === secret) {
+	if (guess == secret) {
 		disableSubmit();
 		feedback("That's it.  Hit 'New Game to play again.");
 	} else if (guess < secret) {
@@ -46,8 +44,23 @@ var makeGuess = function() {
 	} else {
 		feedback("You're too high.")
 	}
-	appendGuess(guess);
-	clearGuess();
+}
+
+var validInput = function(n) {
+	var re=/^[0-9]+$/;
+	return re.test(n);
+}
+
+var makeGuess = function() {
+	var guess = $("#userGuess").val();
+	if (validInput(guess)) {
+		incrementGuesses();
+		provideFeedback(guess);
+		appendGuess(guess);
+		clearGuess();
+	} else {
+		feedback("Please enter a number from 1 - 100");
+	}
 }
 
 var newGame = function() {
